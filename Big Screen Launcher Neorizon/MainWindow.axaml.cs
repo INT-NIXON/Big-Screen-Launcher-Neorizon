@@ -5,6 +5,10 @@ using Big_Screen_Launcher_Neorizon.Input;
 using Big_Screen_Launcher_Neorizon.Services;
 using Big_Screen_Launcher_Neorizon.ViewModels;
 using BSLN.Core.Domain;
+using PCL.Core;
+using PCL.Core.App.IoC;
+using PCL.Core.Logging;
+
 
 namespace Big_Screen_Launcher_Neorizon;
 
@@ -28,6 +32,9 @@ public partial class MainWindow : Window
 
     private async void OnOpened(object? sender, EventArgs e)
     {
+        Lifecycle.OnWindowCreated();
+        LogWrapper.Info("MainWindow opened, lifecycle WindowCreated triggered");
+
         if (_viewModel is null)
         {
             return;

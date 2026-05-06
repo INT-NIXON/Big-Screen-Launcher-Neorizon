@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Big_Screen_Launcher_Neorizon.ViewModels;
 
 namespace Big_Screen_Launcher_Neorizon.Views;
@@ -37,6 +38,22 @@ public partial class LibraryShellView : UserControl
         }
 
         Avalonia.Threading.Dispatcher.UIThread.Post(ScrollSelectedIntoView);
+    }
+
+    private async void OnGameRailTapped(object? sender, TappedEventArgs e)
+    {
+        if (_vm is null)
+        {
+            return;
+        }
+
+        var index = GameRailList.SelectedIndex;
+        if (index < 0)
+        {
+            return;
+        }
+
+        await _vm.HandleItemTappedAsync(index);
     }
 
     private void ScrollSelectedIntoView()

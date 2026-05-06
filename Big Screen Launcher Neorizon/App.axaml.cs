@@ -13,6 +13,7 @@ using BSLN.Core.Launch;
 using BSLN.Core.Settings;
 using BSLN.Core.Sources;
 using Microsoft.Extensions.DependencyInjection;
+using PCL.Core.App.IoC;
 
 namespace Big_Screen_Launcher_Neorizon;
 
@@ -33,6 +34,8 @@ public partial class App : Application
         {
             desktop.MainWindow = _services.GetRequiredService<MainWindow>();
         }
+
+        Lifecycle.OnLoading();
 
         base.OnFrameworkInitializationCompleted();
     }
