@@ -17,6 +17,12 @@
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.4.25258.110"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0-preview.4.25258.110"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\BSLN.Core\BSLN.Core.csproj" />
+        <ProjectReference Include="..\BSLN.Infrastructure\BSLN.Infrastructure.csproj" />
     </ItemGroup>
 </Project>
