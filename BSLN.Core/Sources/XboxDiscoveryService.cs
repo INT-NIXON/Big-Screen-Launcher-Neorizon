@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using BSLN.Core.Application.Abstractions;
 using BSLN.Core.Domain;
 
-namespace BSLN.Infrastructure.Sources;
+namespace BSLN.Core.Sources;
 
 public sealed partial class XboxDiscoveryService : IDiscoveredGameSource
 {

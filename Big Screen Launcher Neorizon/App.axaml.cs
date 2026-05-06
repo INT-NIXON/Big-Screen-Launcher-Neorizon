@@ -7,11 +7,11 @@ using Big_Screen_Launcher_Neorizon.Services;
 using Big_Screen_Launcher_Neorizon.ViewModels;
 using BSLN.Core.Application;
 using BSLN.Core.Application.Abstractions;
-using BSLN.Infrastructure.Catalog;
-using BSLN.Infrastructure.Input;
-using BSLN.Infrastructure.Launch;
-using BSLN.Infrastructure.Settings;
-using BSLN.Infrastructure.Sources;
+using BSLN.Core.Catalog;
+using BSLN.Core.Input;
+using BSLN.Core.Launch;
+using BSLN.Core.Settings;
+using BSLN.Core.Sources;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Big_Screen_Launcher_Neorizon;

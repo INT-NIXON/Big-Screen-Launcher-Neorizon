@@ -2,7 +2,7 @@ using System.Diagnostics;
 using BSLN.Core.Application.Abstractions;
 using BSLN.Core.Domain;
 
-namespace BSLN.Infrastructure.Launch;
+namespace BSLN.Core.Launch;
 
 public sealed class WindowsProcessLauncher : IGameLauncher
 {

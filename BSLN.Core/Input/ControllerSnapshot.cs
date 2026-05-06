@@ -1,4 +1,4 @@
-namespace BSLN.Infrastructure.Input;
+namespace BSLN.Core.Input;
 
 public sealed record ControllerSnapshot(
     bool IsConnected,

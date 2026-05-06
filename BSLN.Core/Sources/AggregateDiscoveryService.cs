@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using BSLN.Core.Application.Abstractions;
 using BSLN.Core.Domain;
 
-namespace BSLN.Infrastructure.Sources;
+namespace BSLN.Core.Sources;
 
 public sealed class AggregateDiscoveryService : IGameDiscoveryAggregator
 {

@@ -3,7 +3,7 @@ using System.Threading;
 using BSLN.Core.Application.Abstractions;
 using BSLN.Core.Domain;
 
-namespace BSLN.Infrastructure.Settings;
+namespace BSLN.Core.Settings;
 
 public sealed class JsonSettingsRepository : ISettingsRepository
 {

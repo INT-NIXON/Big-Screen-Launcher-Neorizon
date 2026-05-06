@@ -4,7 +4,7 @@ using BSLN.Core.Application.Abstractions;
 using BSLN.Core.Domain;
 using Timer = System.Timers.Timer;
 
-namespace BSLN.Infrastructure.Input;
+namespace BSLN.Core.Input;
 
 public sealed class XInputPollingService : IControllerInputSource
 {

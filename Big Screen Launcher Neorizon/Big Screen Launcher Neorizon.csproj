@@ -23,6 +23,5 @@
 
     <ItemGroup>
         <ProjectReference Include="..\BSLN.Core\BSLN.Core.csproj" />
-        <ProjectReference Include="..\BSLN.Infrastructure\BSLN.Infrastructure.csproj" />
     </ItemGroup>
 </Project>

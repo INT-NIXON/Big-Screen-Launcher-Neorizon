@@ -1,5 +1,4 @@
 <Solution>
   <Project Path="Big Screen Launcher Neorizon/Big Screen Launcher Neorizon.csproj" />
   <Project Path="BSLN.Core/BSLN.Core.csproj" />
-  <Project Path="BSLN.Infrastructure/BSLN.Infrastructure.csproj" />
 </Solution>

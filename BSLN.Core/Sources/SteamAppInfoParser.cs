@@ -1,4 +1,4 @@
-namespace BSLN.Infrastructure.Sources;
+namespace BSLN.Core.Sources;
 
 public static class SteamAppInfoParser
 {

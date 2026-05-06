@@ -1,7 +1,7 @@
 using BSLN.Core.Application.Abstractions;
 using BSLN.Core.Domain;
 
-namespace BSLN.Infrastructure.Input;
+namespace BSLN.Core.Input;
 
 public sealed class ResourceGlyphCatalog : IInputGlyphCatalog
 {

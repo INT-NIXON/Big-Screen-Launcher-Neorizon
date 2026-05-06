@@ -1,6 +1,6 @@
 using BSLN.Core.Domain;
 
-namespace BSLN.Infrastructure.Input;
+namespace BSLN.Core.Input;
 
 public sealed class ControllerActionTranslator
 {

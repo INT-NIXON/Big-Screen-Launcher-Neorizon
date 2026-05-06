@@ -2,7 +2,7 @@ using System.Text.Json;
 using BSLN.Core.Application.Abstractions;
 using BSLN.Core.Domain;
 
-namespace BSLN.Infrastructure.Catalog;
+namespace BSLN.Core.Catalog;
 
 public sealed class JsonGameCatalogRepository : IGameCatalogRepository
 {
