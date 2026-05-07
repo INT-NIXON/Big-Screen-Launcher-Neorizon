@@ -176,6 +176,21 @@ public sealed class LibraryShellViewModel : ViewModelBase
         ApplyState();
     }
 
+    public async Task HandleItemTappedAsync(int index)
+    {
+        if (index < 0 || index >= _state.Games.Count)
+        {
+            return;
+        }
+
+        _state = _state with { SelectedIndex = index };
+        ApplyState();
+
+        var result = await _shellService.LaunchSelectedAsync(_state);
+        _state = result.State;
+        ApplyState();
+    }
+
     public Task SetInputFamilyAsync(InputDeviceFamily inputFamily)
     {
         _state = _shellService.SetInputFamily(_state, inputFamily);
