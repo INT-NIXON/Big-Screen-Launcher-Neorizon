@@ -50,6 +50,12 @@ public static partial class WindowInterop
 
     // ReSharper enable InconsistentNaming UnusedMember.Local
 
+    public const uint MB_OK = 0x00000000;
+    public const uint MB_ICONERROR = 0x00000010;
+
+    [LibraryImport("user32.dll", EntryPoint = "MessageBoxW", StringMarshalling = StringMarshalling.Utf16)]
+    public static partial int MessageBox(IntPtr hWnd, string text, string caption, uint type);
+
     /// <summary>
     /// 检测 DWM 组合是否可用
     /// </summary>

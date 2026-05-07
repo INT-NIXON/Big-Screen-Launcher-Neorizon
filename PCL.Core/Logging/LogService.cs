@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using PCL.Core.App;
 using PCL.Core.App.IoC;
+using PCL.Core.Utils.OS;
 
 namespace PCL.Core.Logging;
 
@@ -81,7 +82,14 @@ public class LogService : ILifecycleLogService
             MessageBox.Show(message, "锟斤拷烫烫烫", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 #else
-        if (ex is not null)
+        if (actionLevel == ActionLevel.MsgBoxFatal)
+        {
+            var message = plain;
+            if (ex != null) message += $"\n\n相关异常信息:\n{ex}";
+            message += "\n\n如果你认为这是启动器的问题，请提交反馈，否则它可能永远都不会被解决！\n导出日志: 设置 → 查看日志 → 导出全部日志";
+            WindowInterop.MessageBox(IntPtr.Zero, message, "锟斤拷烫烫烫", WindowInterop.MB_OK | WindowInterop.MB_ICONERROR);
+        }
+        else if (ex is not null)
             Console.Error.WriteLine($"[{level}] {plain}\n{ex}");
         else
             Console.Error.WriteLine($"[{level}] {plain}");
