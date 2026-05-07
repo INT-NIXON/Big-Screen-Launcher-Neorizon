@@ -2,21 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModels="using:Big_Screen_Launcher_Neorizon.ViewModels"
-        xmlns:design="using:Big_Screen_Launcher_Neorizon.ViewModels.Design"
-        xmlns:views="using:Big_Screen_Launcher_Neorizon.Views"
-        mc:Ignorable="d"
-        d:DesignWidth="1600"
-        d:DesignHeight="900"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Big_Screen_Launcher_Neorizon.MainWindow"
-        x:DataType="viewModels:MainWindowViewModel"
-        Background="#08111F"
-        Title="Big Screen Launcher Neorizon">
-  <Design.DataContext>
-    <design:DesignMainWindowViewModel />
-  </Design.DataContext>
-
-  <Grid>
-    <views:LibraryShellView DataContext="{Binding Shell}" />
-  </Grid>
+        Title="Big_Screen_Launcher_Neorizon">
+    Welcome to Big Screen Launcher Neorizon! （主页面施工中...）
 </Window>

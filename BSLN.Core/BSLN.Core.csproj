@@ -10,4 +10,11 @@
       <PackageReference Include="Narod.SteamGameFinder" Version="2.2.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Game\Steam\" />
+      <Folder Include="Game\Xbox\" />
+      <Folder Include="Input\" />
+      <Folder Include="Launch\" />
+    </ItemGroup>
+
 </Project>
