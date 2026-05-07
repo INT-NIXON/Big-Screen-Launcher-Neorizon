@@ -69,6 +69,7 @@ public sealed partial class ApplicationService
     private static void _Start()
     {
         Context.Debug("应用程序初始化 (非 WPF 模式)");
+        Lifecycle.OnLoading();
     }
 
     [LifecycleStop]

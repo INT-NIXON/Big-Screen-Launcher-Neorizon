@@ -10,7 +10,6 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        Lifecycle.OnLoading();
         Lifecycle.OnWindowCreated();
         LogWrapper.Info("MainWindow opened, lifecycle WindowCreated triggered");
     }
