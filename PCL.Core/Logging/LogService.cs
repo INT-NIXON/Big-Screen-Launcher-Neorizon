@@ -52,10 +52,6 @@ public class LogService : ILifecycleLogService
         if (actionLevel <= ActionLevel.NormalLog) return;
 
 #if WPF
-        if (ex is not null) {
-            TelemetryService.ReportException(ex, plain, level);
-        }
-
         // hint
         if (actionLevel is ActionLevel.Hint or ActionLevel.HintErr)
         {
