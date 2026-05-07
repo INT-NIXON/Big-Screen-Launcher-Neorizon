@@ -9,45 +9,8 @@ public delegate void LogHandler(LogLevel level, string msg, string? module = nul
 public static class LogWrapper
 {
     private static Logger? _logger;
-    private static bool _initialized;
 
     public static Logger CurrentLogger => _logger ?? throw new InvalidOperationException("LogWrapper 尚未初始化，请先调用 LogWrapper.Initialize()");
-
-    /// <summary>
-    /// 独立初始化日志系统（不依赖 PCL 生命周期系统）。
-    /// 在应用程序入口处调用一次即可。
-    /// </summary>
-    /// <param name="logDirectory">日志文件存放目录</param>
-    /// <param name="minLogLevel">最低日志级别，默认 Debug</param>
-    public static void Initialize(string logDirectory, LogLevel minLogLevel = LogLevel.Debug)
-    {
-        if (_initialized) return;
-        _initialized = true;
-
-        var config = new LoggerConfiguration(logDirectory, MinLogLevel: minLogLevel);
-        _logger = new Logger(config);
-
-        OnLog += (level, msg, module, ex) =>
-        {
-            var thread = Thread.CurrentThread.Name ?? $"#{Environment.CurrentManagedThreadId}";
-            if (module != null) module = $"[{module}] ";
-            var result = $"[{DateTime.Now:HH:mm:ss.fff}] [{level.PrintName()}] [{thread}] {module}{msg}";
-            _logger.Log((ex == null) ? result : $"{result}\n{ex}");
-        };
-    }
-
-    /// <summary>
-    /// 异步释放日志系统资源，确保所有缓冲日志写入磁盘。
-    /// </summary>
-    public static async ValueTask ShutdownAsync()
-    {
-        if (_logger != null)
-        {
-            await _logger.DisposeAsync();
-            _logger = null;
-        }
-        _initialized = false;
-    }
 
     public static event LogHandler? OnLog;
     
