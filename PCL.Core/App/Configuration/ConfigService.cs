@@ -158,7 +158,7 @@ public sealed partial class ConfigService
             },
             () => // local config file
             {
-                // try migrate
+                /*// try migrate
                 if (!File.Exists(LocalConfigPath)) _TryMigrate(LocalConfigPath, [
                     new ConfigMigration
                     {
@@ -166,7 +166,7 @@ public sealed partial class ConfigService
                         To = LocalConfigPath,
                         OnMigration = CatIniMigration
                     }
-                ]);
+                ]);*/
                 // load
                 var fileProvider = new YamlFileProvider(LocalConfigPath);
                 _localConfigProvider = new FileConfigStorage(fileProvider);
@@ -179,15 +179,15 @@ public sealed partial class ConfigService
                     {
                         ArgumentNullException.ThrowIfNull(argument);
                         var dir = Path.GetFullPath(argument.ToString()!);
-                        var configPath = Path.Combine(dir, "PCL", "config.v1.yml");
-                        if (!File.Exists(dir)) _TryMigrate(dir, [
+                        var configPath = Path.Combine(dir, "BSLN", "config.v1.yml");
+                        /*if (!File.Exists(dir)) _TryMigrate(dir, [
                             new ConfigMigration
                             {
                                 From = Path.Combine(dir, "PCL", "setup.ini"),
                                 To = configPath,
                                 OnMigration = CatIniMigration
                             }
-                        ]);
+                        ]);*/
                         var fileProvider = new YamlFileProvider(configPath);
                         var storage = new FileConfigStorage(fileProvider);
                         return storage;
@@ -203,7 +203,7 @@ public sealed partial class ConfigService
         {
             File.Copy(from, to);
         }
-        void CatIniMigration(string from, string to)
+        /*void CatIniMigration(string from, string to)
         {
             var lines = File.ReadAllLines(from);
             var yamlProvider = new YamlFileProvider(to);
@@ -215,7 +215,7 @@ public sealed partial class ConfigService
                 yamlProvider.Set(kv[0], kv[1]);
             }
             yamlProvider.Sync();
-        }
+        }*/
     }
 
     private static void _TryMigrate(string target, IEnumerable<ConfigMigration> migrations)

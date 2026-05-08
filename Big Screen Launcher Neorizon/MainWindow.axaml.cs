@@ -1,7 +1,7 @@
-using System;
 using Avalonia.Controls;
 using PCL.Core.App.IoC;
 using PCL.Core.Logging;
+using PCL.Core.App;
 
 namespace Big_Screen_Launcher_Neorizon;
 

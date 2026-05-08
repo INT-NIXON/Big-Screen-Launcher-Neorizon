@@ -64,24 +64,24 @@ public static class Paths
     static Paths()
     {
 #if DEBUG
-        const string name = "PCLCE_Debug";
-        const string oldName = ".PCLCEDebug";
+        const string name = "BSLN_Debug";
+        const string oldName = ".BSLNDebug";
 #else
-        const string name = "PCLCE";
-        const string oldName = ".PCLCE";
+        const string name = "BSLN";
+        const string oldName = ".BSLN";
 #endif
         // fill paths
-        _data = Path.Combine(DefaultDirectory, "PCL");
+        _data = Path.Combine(DefaultDirectory, "BSLN");
         _sharedData = GetSpecialPath(Special.ApplicationData, name);
         _sharedLocalData = GetSpecialPath(Special.LocalApplicationData, name);
         _temp = Path.Combine(Path.GetTempPath(), name);
         OldSharedData = GetSpecialPath(Special.ApplicationData, oldName);
 #if DEBUG
         // read environment variables
-        EnvironmentInterop.ReadVariable("PCL_PATH", ref _data);
-        EnvironmentInterop.ReadVariable("PCL_PATH_SHARED", ref _sharedData);
-        EnvironmentInterop.ReadVariable("PCL_PATH_LOCAL", ref _sharedLocalData);
-        EnvironmentInterop.ReadVariable("PCL_PATH_TEMP", ref _temp);
+        EnvironmentInterop.ReadVariable("BSLN_PATH", ref _data);
+        EnvironmentInterop.ReadVariable("BSLN_PATH_SHARED", ref _sharedData);
+        EnvironmentInterop.ReadVariable("BSLN_PATH_LOCAL", ref _sharedLocalData);
+        EnvironmentInterop.ReadVariable("BSLN_PATH_TEMP", ref _temp);
 #endif
         // create directories
         Directory.CreateDirectory(_data);
