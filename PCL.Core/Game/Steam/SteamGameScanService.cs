@@ -11,7 +11,7 @@ public sealed class SteamGameScanService : GeneralService
 {
     private static LifecycleContext? _context;
     private static LifecycleContext Context => _context!;
-    private SteamGameScanService() : base("steam-scan", "Steam游戏扫描", false)
+    private SteamGameScanService() : base("steam-scan", "Steam 游戏扫描", false)
     {
         _context = ServiceContext;
     }
@@ -38,7 +38,7 @@ public sealed class SteamGameScanService : GeneralService
             var libraryPaths = locator.getSteamLibraryLocations();
             Context.Info($"Steam 库数量: {libraryPaths.Count}");
             foreach (var path in libraryPaths)
-                Context.Info($"Steam库: {path}");
+                Context.Info($"Steam 库: {path}");
 
             var allGames = locator.getAllGames();
             Context.Info($"已安装 Steam 游戏总数: {allGames.Count}");
