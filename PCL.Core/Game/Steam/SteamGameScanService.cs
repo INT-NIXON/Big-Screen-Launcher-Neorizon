@@ -46,7 +46,7 @@ public sealed class SteamGameScanService : GeneralService
             var result = new StringBuilder();
             result.Append("Steam 游戏扫描结果:");
             foreach (var game in allGames)
-                result.Append("\n        [✓] ").Append(game.steamGameName).Append(" | ").Append(game.steamGameLocation);
+                result.Append("\n        [✓] [").Append(game.steamGameID).Append("] ").Append(game.steamGameName).Append(" | ").Append(game.steamGameLocation);
             Context.Info(result.ToString());
 
             Context.Info("Steam 游戏扫描完成");
