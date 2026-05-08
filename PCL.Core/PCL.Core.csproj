@@ -69,6 +69,9 @@
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.16.0" />
         <!-- 验证 -->
         <PackageReference Include="FluentValidation" Version="12.1.1" />
+        <!-- SteamGameFinder 带进来的屎 -->
+        <PackageReference Include="NUnit" Version="3.14.0" PrivateAssets="all" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.3.2" />
     </ItemGroup>
     <!-- 信不过巨硬的智障代码，手动包含需要的文件 -->
     <PropertyGroup>
@@ -89,5 +92,8 @@
     <ItemGroup>
         <AdditionalFiles Include="App\IoC\LifecycleState.cs" />
         <ProjectReference Include="..\PCL.Core.SourceGenerators\PCL.Core.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Game\Xbox\" />
     </ItemGroup>
 </Project>
