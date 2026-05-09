@@ -1,4 +1,4 @@
-﻿namespace Narod
+namespace Narod
 {
 
     public enum MemorySettings
