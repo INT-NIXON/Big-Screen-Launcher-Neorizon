@@ -1,6 +1,5 @@
 <Solution>
   <Project Path="Big Screen Launcher Neorizon/Big Screen Launcher Neorizon.csproj" />
-  <Project Path="BSLN.Core/BSLN.Core.csproj" />
   <Project Path="PCL.Core/PCL.Core.csproj" />
   <Project Path="PCL.Core.SourceGenerators/PCL.Core.SourceGenerators.csproj" />
   <Project Path="PCL.Core.Test/PCL.Core.Test.csproj" />
