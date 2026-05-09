@@ -1,10 +1,28 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using Narod;
 using Narod.SteamGameFinder;
 using PCL.Core.App.IoC;
 
 namespace PCL.Core.Game.Steam;
+
+public record SteamGamePicture(string AppId, string? IconPath, string? HeroPath);
+
+public static class SteamGameData
+{
+    public static string? SteamInstallPath { get; set; }
+    public static bool IsScanComplete { get; set; }
+
+    private static SteamGameLocator.GameStruct[] _games = [];
+    public static SteamGameLocator.GameStruct[] InstalledGames
+    {
+        get => _games;
+        set => _games = value ?? [];
+    }
+
+    public static List<SteamGamePicture> Pictures { get; set; } = [];
+}
 
 [LifecycleService(LifecycleState.Loading, Priority = -100)]
 public sealed class SteamGameScanService : GeneralService
@@ -33,6 +51,7 @@ public sealed class SteamGameScanService : GeneralService
             }
 
             var steamPath = locator.getSteamInstallLocation();
+            SteamGameData.SteamInstallPath = steamPath;
             Context.Info($"Steam 安装路径: {steamPath}");
 
             var libraryPaths = locator.getSteamLibraryLocations();
@@ -41,6 +60,7 @@ public sealed class SteamGameScanService : GeneralService
                 Context.Info($"Steam 库: {path}");
 
             var allGames = locator.getAllGames();
+            SteamGameData.InstalledGames = allGames.ToArray();
             Context.Info($"已安装 Steam 游戏总数: {allGames.Count}");
 
             var result = new StringBuilder();
@@ -49,6 +69,7 @@ public sealed class SteamGameScanService : GeneralService
                 result.Append("\n        [✓] [").Append(game.steamGameID).Append("] ").Append(game.steamGameName).Append(" | ").Append(game.steamGameLocation);
             Context.Info(result.ToString());
 
+            SteamGameData.IsScanComplete = true;
             Context.Info("Steam 游戏扫描完成");
         }
         catch (Exception ex)
