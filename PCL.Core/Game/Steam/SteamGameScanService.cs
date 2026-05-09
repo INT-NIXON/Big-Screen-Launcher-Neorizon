@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Narod;
 using Narod.SteamGameFinder;
@@ -13,6 +14,9 @@ public static class SteamGameData
 {
     public static string? SteamInstallPath { get; set; }
     public static bool IsScanComplete { get; set; }
+
+    // ignore Steamworks Common Redistributables
+    public static readonly HashSet<string> ExcludedAppIds = ["228980"];
 
     private static SteamGameLocator.GameStruct[] _games = [];
     public static SteamGameLocator.GameStruct[] InstalledGames
@@ -60,12 +64,14 @@ public sealed class SteamGameScanService : GeneralService
                 Context.Info($"Steam 库: {path}");
 
             var allGames = locator.getAllGames();
-            SteamGameData.InstalledGames = allGames.ToArray();
+            var installedGames = allGames.Where(g => !SteamGameData.ExcludedAppIds.Contains(g.steamGameID)).ToArray();
+            SteamGameData.InstalledGames = installedGames;
             Context.Info($"已安装 Steam 游戏总数: {allGames.Count}");
+            Context.Info($"有效 Steam 游戏总数: {installedGames.Length}");
 
             var result = new StringBuilder();
             result.Append("Steam 游戏扫描结果:");
-            foreach (var game in allGames)
+            foreach (var game in installedGames)
                 result.Append("\n        [✓] [").Append(game.steamGameID).Append("] ").Append(game.steamGameName).Append(" | ").Append(game.steamGameLocation);
             Context.Info(result.ToString());
 
