@@ -15,3 +15,6 @@ Copyright © Big-Screen-Launcher-Team
 
 - PCL.Core & PCL.Core.SourceGenerators & PCL.Core.Test<br />
 Copyright © PCL Community
+
+- SteamGameFinder<br />
+Copyright © 2022 Narod
