@@ -6,6 +6,6 @@ public sealed class GameItem
     public required string Name { get; init; }
     public required GamePlatform Platform { get; init; }
     public string? CoverPath { get; set; }
-    public string? HeroPath { get; set; }
+    public string? LogoPath { get; set; }
     public string? InstallPath { get; init; }
 }

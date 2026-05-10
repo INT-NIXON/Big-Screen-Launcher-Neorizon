@@ -37,8 +37,8 @@ public static class GameLibraryService
                     AppId = sg.steamGameID,
                     Name = sg.steamGameName,
                     Platform = GamePlatform.Steam,
-                    CoverPath = pic?.IconPath ?? pic?.HeroPath,
-                    HeroPath = pic?.HeroPath,
+                    CoverPath = pic?.IconPath ?? pic?.LogoPath,
+                    LogoPath = pic?.LogoPath,
                     InstallPath = sg.steamGameLocation
                 });
             }
@@ -56,7 +56,7 @@ public static class GameLibraryService
                     Name = xg.DisplayName,
                     Platform = GamePlatform.Xbox,
                     CoverPath = pic?.IconPath ?? pic?.HeroPath,
-                    HeroPath = pic?.HeroPath,
+                    LogoPath = pic?.HeroPath,
                     InstallPath = xg.Path.GetFullPath()
                 });
             }

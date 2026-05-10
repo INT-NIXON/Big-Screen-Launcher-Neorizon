@@ -197,7 +197,7 @@ public partial class MainWindow : Window
         var game = _selectedIndex >= 0 && _selectedIndex < _allGames.Count
             ? _allGames[_selectedIndex] : null;
 
-        string? newPath = game?.HeroPath;
+        string? newPath = game?.LogoPath;
         if (newPath == null || !File.Exists(newPath))
         {
             HeroImage1.Source = null;
