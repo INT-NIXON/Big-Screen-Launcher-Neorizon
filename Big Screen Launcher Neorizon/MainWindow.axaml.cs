@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -165,23 +166,33 @@ public partial class MainWindow : Window
 
         double startX = GameScroller.Offset.X;
         double distance = targetX - startX;
+        if (Math.Abs(distance) < 1) return;
         double durationMs = Math.Clamp(Math.Abs(distance) * 0.5, 200, 400);
-        var startTime = DateTime.UtcNow;
 
-        while (true)
+        var tcs = new TaskCompletionSource();
+        var sw = Stopwatch.StartNew();
+
+        void OnFrame(TimeSpan _)
         {
-            double elapsed = (DateTime.UtcNow - startTime).TotalMilliseconds;
-            if (elapsed >= durationMs) break;
+            double elapsed = sw.Elapsed.TotalMilliseconds;
+            if (elapsed >= durationMs)
+            {
+                GameScroller.Offset = new Vector(targetX, 0);
+                tcs.TrySetResult();
+                return;
+            }
             double t = 1.0 - Math.Pow(1.0 - elapsed / durationMs, 3);
             GameScroller.Offset = new Vector(startX + distance * t, 0);
-            await Task.Delay(16);
+            RequestAnimationFrame(OnFrame);
         }
-        GameScroller.Offset = new Vector(targetX, 0);
+
+        RequestAnimationFrame(OnFrame);
+        await tcs.Task;
     }
 
     // ---- Hero crossfade ----
 
-    private void UpdateHeroCrossfade()
+    private async void UpdateHeroCrossfade()
     {
         var game = _selectedIndex >= 0 && _selectedIndex < _allGames.Count
             ? _allGames[_selectedIndex] : null;
@@ -199,7 +210,7 @@ public partial class MainWindow : Window
             var newImg = HeroImage1.Opacity > 0.5 ? HeroImage2 : HeroImage1;
             var oldImg = HeroImage1.Opacity > 0.5 ? HeroImage1 : HeroImage2;
 
-            var bitmap = new Bitmap(newPath);
+            var bitmap = await Task.Run(() => new Bitmap(newPath));
 
             if (oldImg.Source == null && newImg.Source != null)
                 oldImg.Source = newImg.Source;
