@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
@@ -24,5 +24,10 @@
     <ItemGroup>
         <ProjectReference Include="..\PCL.Core\PCL.Core.csproj" />
         <ProjectReference Include="..\PCL.Core.SourceGenerators\PCL.Core.SourceGenerators.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Resources\Xbox Series\**" CopyToOutputDirectory="PreserveNewest" />
+        <Content Include="Resources\PlayStation Series\**" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 </Project>

@@ -2,8 +2,157 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="720"
         x:Class="Big_Screen_Launcher_Neorizon.MainWindow"
-        Title="Big_Screen_Launcher_Neorizon">
-    Welcome to Big Screen Launcher Neorizon! （主页面施工中...）
+        Title="Big Screen Launcher"
+        WindowState="Maximized"
+        Background="#0A0E17">
+  <Grid>
+    <!-- Loading overlay -->
+    <Border x:Name="LoadingOverlay"
+            Background="#0A0E17"
+            ZIndex="100">
+      <StackPanel VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Spacing="16">
+        <ProgressBar IsIndeterminate="True"
+                     Width="200"
+                     Height="4" />
+        <TextBlock x:Name="LoadingText"
+                   FontSize="18"
+                   Foreground="#E9F1FF"
+                   HorizontalAlignment="Center"
+                   Text="正在扫描游戏..." />
+      </StackPanel>
+    </Border>
+
+    <!-- Main content -->
+    <Border x:Name="MainContent" IsVisible="False">
+      <Grid RowDefinitions="*,Auto">
+        <!-- ===== LAYER 1: Hero background (spans both rows) ===== -->
+        <Grid Grid.Row="0" Grid.RowSpan="2"
+              ZIndex="0">
+          <!-- Hero images (stacked, crossfade) -->
+          <Image x:Name="HeroImage1"
+                 Stretch="UniformToFill"
+                 StretchDirection="DownOnly"
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="Center">
+            <Image.Transitions>
+              <Transitions>
+                <DoubleTransition Property="Opacity"
+                                  Duration="0:0:0.5"
+                                  Easing="CubicEaseOut"/>
+              </Transitions>
+            </Image.Transitions>
+          </Image>
+          <Image x:Name="HeroImage2"
+                 Stretch="UniformToFill"
+                 StretchDirection="DownOnly"
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="Center"
+                 Opacity="0">
+            <Image.Transitions>
+              <Transitions>
+                <DoubleTransition Property="Opacity"
+                                  Duration="0:0:0.5"
+                                  Easing="CubicEaseOut"/>
+              </Transitions>
+            </Image.Transitions>
+          </Image>
+
+          <!-- Hero dark overlay -->
+          <Border IsHitTestVisible="False">
+            <Border.Background>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#C0000000" Offset="0"/>
+                <GradientStop Color="#60000000" Offset="0.4"/>
+                <GradientStop Color="#20000000" Offset="0.7"/>
+                <GradientStop Color="#00000000" Offset="1"/>
+              </LinearGradientBrush>
+            </Border.Background>
+          </Border>
+        </Grid>
+
+        <!-- ===== LAYER 2: Content on top of hero ===== -->
+        <Grid Grid.Row="0" Grid.RowSpan="2"
+              ZIndex="1">
+
+          <!-- Top bar -->
+          <Border VerticalAlignment="Top"
+                  Background="#40000000"
+                  Padding="24,16">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Text="我的游戏"
+                         FontSize="32"
+                         FontWeight="Bold"
+                         Foreground="#E9F1FF"
+                         VerticalAlignment="Center" />
+              <TextBlock x:Name="GameCountText"
+                         Grid.Column="1"
+                         FontSize="16"
+                         Foreground="#8899BB"
+                         VerticalAlignment="Center" />
+            </Grid>
+          </Border>
+
+          <!-- Transition gradient above game rail -->
+          <Border VerticalAlignment="Bottom"
+                  Height="180"
+                  IsHitTestVisible="False">
+            <Border.Background>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#000A0E17" Offset="0"/>
+                <GradientStop Color="#0A0E17" Offset="0.6"/>
+                <GradientStop Color="#0A0E17" Offset="1"/>
+              </LinearGradientBrush>
+            </Border.Background>
+          </Border>
+
+        </Grid>
+
+        <!-- ===== LAYER 3: Game rail (row 1, below hero) ===== -->
+        <ScrollViewer x:Name="GameScroller"
+                      Grid.Row="1"
+                      ZIndex="2"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Disabled"
+                      Background="Transparent">
+          <StackPanel x:Name="GamePanel"
+                      Orientation="Horizontal"
+                      Margin="48,8,0,16"
+                      Spacing="20" />
+        </ScrollViewer>
+
+        <!-- ===== LAYER 4: Overlays on top of everything ===== -->
+        <Grid Grid.Row="0" Grid.RowSpan="2"
+              ZIndex="3"
+              IsHitTestVisible="False">
+          <!-- Input hints (bottom-right) -->
+          <Border HorizontalAlignment="Right"
+                  VerticalAlignment="Bottom"
+                  Margin="0,0,36,36"
+                  Padding="18,12"
+                  CornerRadius="14"
+                  Background="#CC1A2740"
+                  IsHitTestVisible="True">
+            <StackPanel Orientation="Horizontal" Spacing="24">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Image x:Name="HintDpad" Width="24" Height="24" Stretch="Uniform" />
+                <TextBlock Text="导航" FontSize="14" Foreground="#E9F1FF" VerticalAlignment="Center" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Image x:Name="HintA" Width="24" Height="24" Stretch="Uniform" />
+                <TextBlock Text="启动" FontSize="14" Foreground="#E9F1FF" VerticalAlignment="Center" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Image x:Name="HintB" Width="24" Height="24" Stretch="Uniform" />
+                <TextBlock Text="返回" FontSize="14" Foreground="#E9F1FF" VerticalAlignment="Center" />
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </Grid>
+      </Grid>
+    </Border>
+  </Grid>
 </Window>
