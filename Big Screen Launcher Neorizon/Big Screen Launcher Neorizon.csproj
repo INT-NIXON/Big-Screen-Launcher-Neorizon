@@ -27,7 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="Resources\Xbox Series\**" CopyToOutputDirectory="PreserveNewest" />
-        <Content Include="Resources\PlayStation Series\**" CopyToOutputDirectory="PreserveNewest" />
+      <AvaloniaResource Include="Resources\Images\**" />
     </ItemGroup>
 </Project>
