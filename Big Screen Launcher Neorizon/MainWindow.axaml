@@ -8,113 +8,66 @@
         WindowState="Maximized"
         Background="#0A0E17">
   <Grid>
-    <!-- Loading overlay -->
-    <Border x:Name="LoadingOverlay"
-            Background="#0A0E17"
-            ZIndex="100">
-      <StackPanel VerticalAlignment="Center"
-                  HorizontalAlignment="Center"
-                  Spacing="16">
-        <ProgressBar IsIndeterminate="True"
-                     Width="200"
-                     Height="4" />
-        <TextBlock x:Name="LoadingText"
-                   FontSize="18"
-                   Foreground="#E9F1FF"
-                   HorizontalAlignment="Center"
-                   Text="正在扫描游戏..." />
-      </StackPanel>
-    </Border>
-
     <!-- Main content -->
     <Border x:Name="MainContent" IsVisible="False">
-      <Grid RowDefinitions="*,Auto">
-        <!-- ===== LAYER 1: Hero background (spans both rows) ===== -->
-        <Grid Grid.Row="0" Grid.RowSpan="2"
-              ZIndex="0">
-          <!-- Hero images (stacked, crossfade) -->
-          <Image x:Name="HeroImage1"
-                 Stretch="UniformToFill"
-                 StretchDirection="DownOnly"
-                 VerticalAlignment="Top"
-                 HorizontalAlignment="Center">
-            <Image.Transitions>
-              <Transitions>
-                <DoubleTransition Property="Opacity"
-                                  Duration="0:0:0.5"
-                                  Easing="CubicEaseOut"/>
-              </Transitions>
-            </Image.Transitions>
-          </Image>
-          <Image x:Name="HeroImage2"
-                 Stretch="UniformToFill"
-                 StretchDirection="DownOnly"
-                 VerticalAlignment="Top"
-                 HorizontalAlignment="Center"
-                 Opacity="0">
-            <Image.Transitions>
-              <Transitions>
-                <DoubleTransition Property="Opacity"
-                                  Duration="0:0:0.5"
-                                  Easing="CubicEaseOut"/>
-              </Transitions>
-            </Image.Transitions>
-          </Image>
+      <Grid RowDefinitions="Auto,Auto,Auto">
+        <!-- Top bar -->
+        <Border Grid.Row="0"
+                VerticalAlignment="Top"
+                Background="#40000000"
+                Padding="24,16">
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="我的游戏"
+                       FontSize="32"
+                       FontWeight="Bold"
+                       Foreground="#E9F1FF"
+                       VerticalAlignment="Center" />
+            <TextBlock x:Name="GameCountText"
+                       Grid.Column="1"
+                       FontSize="16"
+                       Foreground="#8899BB"
+                       VerticalAlignment="Center" />
+          </Grid>
+        </Border>
 
-          <!-- Hero dark overlay -->
-          <Border IsHitTestVisible="False">
-            <Border.Background>
-              <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
-                <GradientStop Color="#C0000000" Offset="0"/>
-                <GradientStop Color="#60000000" Offset="0.4"/>
-                <GradientStop Color="#20000000" Offset="0.7"/>
-                <GradientStop Color="#00000000" Offset="1"/>
-              </LinearGradientBrush>
-            </Border.Background>
-          </Border>
-        </Grid>
+        <!-- Logo area (left-aligned with game list) -->
+        <Border Grid.Row="1"
+                Height="220"
+                Margin="48,8,0,0"
+                Background="Transparent"
+                ClipToBounds="True">
+          <Grid>
+            <Image x:Name="HeroImage1"
+                   Stretch="Uniform"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center">
+              <Image.Transitions>
+                <Transitions>
+                  <DoubleTransition Property="Opacity"
+                                    Duration="0:0:0.5"
+                                    Easing="CubicEaseOut"/>
+                </Transitions>
+              </Image.Transitions>
+            </Image>
+            <Image x:Name="HeroImage2"
+                   Stretch="Uniform"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Opacity="0">
+              <Image.Transitions>
+                <Transitions>
+                  <DoubleTransition Property="Opacity"
+                                    Duration="0:0:0.5"
+                                    Easing="CubicEaseOut"/>
+                </Transitions>
+              </Image.Transitions>
+            </Image>
+          </Grid>
+        </Border>
 
-        <!-- ===== LAYER 2: Content on top of hero ===== -->
-        <Grid Grid.Row="0" Grid.RowSpan="2"
-              ZIndex="1">
-
-          <!-- Top bar -->
-          <Border VerticalAlignment="Top"
-                  Background="#40000000"
-                  Padding="24,16">
-            <Grid ColumnDefinitions="*,Auto">
-              <TextBlock Text="我的游戏"
-                         FontSize="32"
-                         FontWeight="Bold"
-                         Foreground="#E9F1FF"
-                         VerticalAlignment="Center" />
-              <TextBlock x:Name="GameCountText"
-                         Grid.Column="1"
-                         FontSize="16"
-                         Foreground="#8899BB"
-                         VerticalAlignment="Center" />
-            </Grid>
-          </Border>
-
-          <!-- Transition gradient above game rail -->
-          <Border VerticalAlignment="Bottom"
-                  Height="180"
-                  IsHitTestVisible="False">
-            <Border.Background>
-              <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
-                <GradientStop Color="#000A0E17" Offset="0"/>
-                <GradientStop Color="#0A0E17" Offset="0.6"/>
-                <GradientStop Color="#0A0E17" Offset="1"/>
-              </LinearGradientBrush>
-            </Border.Background>
-          </Border>
-
-        </Grid>
-
-        <!-- ===== LAYER 3: Game rail (row 1, below hero) ===== -->
+        <!-- Game rail -->
         <ScrollViewer x:Name="GameScroller"
-                      Grid.Row="1"
-                      ZIndex="2"
+                      Grid.Row="2"
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Disabled"
                       Background="Transparent">
@@ -124,11 +77,9 @@
                       Spacing="20" />
         </ScrollViewer>
 
-        <!-- ===== LAYER 4: Overlays on top of everything ===== -->
-        <Grid Grid.Row="0" Grid.RowSpan="2"
-              ZIndex="3"
+        <!-- Input hints overlay -->
+        <Grid Grid.Row="0" Grid.RowSpan="3"
               IsHitTestVisible="False">
-          <!-- Input hints (bottom-right) -->
           <Border HorizontalAlignment="Right"
                   VerticalAlignment="Bottom"
                   Margin="0,0,36,36"

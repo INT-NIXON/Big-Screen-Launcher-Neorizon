@@ -54,8 +54,7 @@ public partial class MainWindow : Window
 
         BuildTiles();
         AnimateEntranceAsync();
-
-        LoadingOverlay.IsVisible = false;
+        
         MainContent.IsVisible = true;
 
         Focus();
