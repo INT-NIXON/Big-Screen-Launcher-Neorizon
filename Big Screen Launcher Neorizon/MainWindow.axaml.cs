@@ -88,7 +88,7 @@ public partial class MainWindow : Window
     {
         var baseDir = AppDomain.CurrentDomain.BaseDirectory;
         var family = _isPlayStation ? "PlayStation Series" : "Xbox Series";
-        var resDir = Path.Combine(baseDir, "Resources", family);
+        var resDir = Path.Combine(baseDir, "Resources", "Images", family);
 
         LoadImage(HintDpad, Path.Combine(resDir, _isPlayStation ? "playstation_dpad.png" : "xbox_dpad.png"));
         LoadImage(HintA, Path.Combine(resDir, _isPlayStation ? "playstation_button_cross.png" : "xbox_button_a.png"));
