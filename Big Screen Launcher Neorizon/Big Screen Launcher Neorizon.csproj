@@ -25,4 +25,8 @@
         <ProjectReference Include="..\PCL.Core\PCL.Core.csproj" />
         <ProjectReference Include="..\PCL.Core.SourceGenerators\PCL.Core.SourceGenerators.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <AvaloniaResource Include="Resources\Images\**" />
+    </ItemGroup>
 </Project>
