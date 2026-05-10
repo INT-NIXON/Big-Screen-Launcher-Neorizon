@@ -5,6 +5,5 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Big_Screen_Launcher_Neorizon.MainWindow"
         Title="Big_Screen_Launcher_Neorizon">
-    <Image Margin="20" Height="2000" Width="2000" 
-           Source="/Resources/Images/Arts/Background.png"/>
+    Welcome to Big Screen Launcher Neorizon! （主页面施工中...）
 </Window>
