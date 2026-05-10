@@ -10,7 +10,7 @@
   <Grid>
     <!-- Main content -->
     <Border x:Name="MainContent" IsVisible="False">
-      <Grid RowDefinitions="Auto,Auto,Auto">
+      <Grid RowDefinitions="Auto,*,Auto,Auto">
         <!-- Top bar -->
         <Border Grid.Row="0"
                 VerticalAlignment="Top"
@@ -31,7 +31,7 @@
         </Border>
 
         <!-- Logo area (left-aligned with game list) -->
-        <Border Grid.Row="1"
+        <Border Grid.Row="2"
                 Height="220"
                 Margin="48,8,0,0"
                 Background="Transparent"
@@ -67,7 +67,7 @@
 
         <!-- Game rail -->
         <ScrollViewer x:Name="GameScroller"
-                      Grid.Row="2"
+                      Grid.Row="3"
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Disabled"
                       Background="Transparent">
@@ -78,7 +78,7 @@
         </ScrollViewer>
 
         <!-- Input hints overlay -->
-        <Grid Grid.Row="0" Grid.RowSpan="3"
+        <Grid Grid.Row="0" Grid.RowSpan="4"
               IsHitTestVisible="False">
           <Border HorizontalAlignment="Right"
                   VerticalAlignment="Bottom"
