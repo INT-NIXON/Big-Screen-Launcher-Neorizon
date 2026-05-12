@@ -8,7 +8,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 using Big_Screen_Launcher_Neorizon.Controls;
+using Big_Screen_Launcher_Neorizon.Input;
 using Big_Screen_Launcher_Neorizon.Models;
 using Big_Screen_Launcher_Neorizon.Services;
 using PCL.Core.App.IoC;
@@ -22,10 +24,9 @@ public partial class MainWindow : Window
 {
     private List<GameItem> _allGames = [];
     private List<GameCardControl> _tiles = [];
-    private int _selectedIndex = 0;
-    private XInputService? _xinput;
-    private GamepadService? _gamepad;
-    private Avalonia.Threading.DispatcherTimer? _inputTimer;
+    private int _selectedIndex;
+    private ControllerService? _controller;
+    private DispatcherTimer? _inputTimer;
     private bool _isPlayStation;
 
     public MainWindow()
@@ -49,40 +50,16 @@ public partial class MainWindow : Window
         _allGames = [.. GameLibraryService.Games];
 
         StartInput();
-        _isPlayStation = !_xinput!.IsConnected && DetectPlayStationController();
         LoadHintImages();
 
         BuildTiles();
         AnimateEntranceAsync();
-        
-        MainContent.IsVisible = true;
 
+        MainContent.IsVisible = true;
         Focus();
     }
 
-    // ---- Controller detection ----
-
-    private static bool DetectPlayStationController()
-    {
-        if (!OperatingSystem.IsWindows()) return false;
-        try
-        {
-            using var baseKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(
-                @"SYSTEM\CurrentControlSet\Enum\HID");
-            if (baseKey == null) return false;
-
-            string[] psPrefixes = ["VID_054C&PID_0CE6", "VID_054C&PID_0DF2", "VID_054C&PID_09CC",
-                                   "VID_054C&PID_0DA0", "VID_054C&PID_0BA0"];
-            foreach (var name in baseKey.GetSubKeyNames())
-                foreach (var prefix in psPrefixes)
-                    if (name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-                        return true;
-        }
-        catch { }
-        return false;
-    }
-
-    // ---- Hint images ----
+    // ── Hint images (Xbox vs PlayStation glyphs) ──
 
     private void LoadHintImages()
     {
@@ -111,7 +88,7 @@ public partial class MainWindow : Window
         }
     }
 
-    // ---- Game tiles ----
+    // ── Game tiles ──
 
     private void BuildTiles()
     {
@@ -157,7 +134,7 @@ public partial class MainWindow : Window
 
     private async void SmoothScrollToTile(int index)
     {
-        double tileStart = index * (260 + 20) + 48; // margin 48
+        double tileStart = index * (260 + 20) + 48;
         double viewWidth = GameScroller.Bounds.Width;
         if (viewWidth <= 0) return;
         double targetX = tileStart - (viewWidth - 260) / 2.0;
@@ -189,7 +166,7 @@ public partial class MainWindow : Window
         await tcs.Task;
     }
 
-    // ---- Hero crossfade ----
+    // ── Hero crossfade ──
 
     private async void UpdateHeroCrossfade()
     {
@@ -235,22 +212,11 @@ public partial class MainWindow : Window
             XboxGameLauncher.Launch(game.AppId);
     }
 
-    // ---- Input handling ----
+    // ── Input (keyboard + controller) ──
 
     protected override void OnKeyDown(KeyEventArgs e)
     {
-        var action = e.Key switch
-        {
-            Key.Left => SemanticInputAction.MoveLeft,
-            Key.Right => SemanticInputAction.MoveRight,
-            Key.Up => SemanticInputAction.MoveLeft,
-            Key.Down => SemanticInputAction.MoveRight,
-            Key.Enter => SemanticInputAction.Accept,
-            Key.Space => SemanticInputAction.Accept,
-            Key.Escape => SemanticInputAction.Back,
-            _ => (SemanticInputAction?)null
-        };
-
+        var action = KeyActionMap.Map(e.Key);
         if (action.HasValue)
         {
             HandleAction(action.Value);
@@ -260,52 +226,51 @@ public partial class MainWindow : Window
         base.OnKeyDown(e);
     }
 
-    private void HandleAction(SemanticInputAction action)
+    private void HandleAction(ControllerAction action)
     {
         switch (action)
         {
-            case SemanticInputAction.MoveLeft:
-            case SemanticInputAction.MoveUp:
+            case ControllerAction.MoveLeft:
+            case ControllerAction.MoveUp:
                 SelectPrev();
                 break;
-            case SemanticInputAction.MoveRight:
-            case SemanticInputAction.MoveDown:
+
+            case ControllerAction.MoveRight:
+            case ControllerAction.MoveDown:
                 SelectNext();
                 break;
-            case SemanticInputAction.Accept:
+
+            case ControllerAction.Accept:
                 LaunchSelected();
+                break;
+
+            case ControllerAction.PageUp:
+                SelectTile(0);
+                break;
+
+            case ControllerAction.PageDown:
+                SelectTile(_tiles.Count - 1);
                 break;
         }
     }
-
-    // ---- Input (WGI Gamepad + XInput fallback) ----
 
     private void StartInput()
     {
-        try
-        {
-            _xinput = new XInputService();  // connection detection only
-            _gamepad = new GamepadService();
-            _gamepad.ActionReceived += action => HandleAction(action);
+        _controller = new ControllerService();
+        _controller.ActionReceived += action => HandleAction(action);
+        _controller.FamilyChanged += family => SwitchHintImages(family == InputDeviceFamily.PlayStation);
 
-            _inputTimer = new Avalonia.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
-            _inputTimer.Tick += (_, _) =>
-            {
-                _xinput.PollNow();
-                _gamepad.Poll();
-            };
-            _inputTimer.Start();
-            _xinput.PollNow();
-            _gamepad.Poll();
-            LogWrapper.Info("Gamepad (WGI) polling started");
-        }
-        catch (Exception ex)
-        {
-            LogWrapper.Error(ex, "Input init error");
-        }
+        // First poll to detect device family immediately
+        _controller.Poll();
+
+        _inputTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(33) };
+        _inputTimer.Tick += (_, _) => _controller.Poll();
+        _inputTimer.Start();
+
+        LogWrapper.Info("ControllerService started (WGI + XInput, unified)");
     }
 
-    // ---- Entrance animation ----
+    // ── Entrance animation ──
 
     private async void AnimateEntranceAsync()
     {
@@ -325,7 +290,7 @@ public partial class MainWindow : Window
         }
     }
 
-    // ---- Cleanup ----
+    // ── Cleanup ──
 
     private void OnClosing(object? sender, EventArgs e)
     {
