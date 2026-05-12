@@ -43,7 +43,7 @@ public sealed class SteamGamePictureScanService : GeneralService
                 }
 
                 string? iconPath = null;
-                string? heroPath = null;
+                string? logoPath = null;
 
                 var jpgFiles = new List<string>();
                 jpgFiles.AddRange(Directory.GetFiles(gameCacheDir, "*.jpg", SearchOption.TopDirectoryOnly));
@@ -59,14 +59,26 @@ public sealed class SteamGamePictureScanService : GeneralService
                     if (iconPath == null && fileName.Contains("library_600x900", StringComparison.OrdinalIgnoreCase))
                         iconPath = file;
 
-                    if (heroPath == null && fileName.Contains("library_hero", StringComparison.OrdinalIgnoreCase))
-                        heroPath = file;
-
-                    if (iconPath != null && heroPath != null)
+                    if (iconPath != null)
                         break;
                 }
 
-                pictures.Add(new SteamGamePicture(game.steamGameID, iconPath, heroPath));
+                var pngFiles = new List<string>();
+                pngFiles.AddRange(Directory.GetFiles(gameCacheDir, "*.png", SearchOption.TopDirectoryOnly));
+                foreach (var subDir in Directory.GetDirectories(gameCacheDir))
+                    pngFiles.AddRange(Directory.GetFiles(subDir, "*.png", SearchOption.TopDirectoryOnly));
+
+                foreach (var file in pngFiles)
+                {
+                    var fileName = Path.GetFileName(file);
+                    if (logoPath == null && fileName.Contains("logo", StringComparison.OrdinalIgnoreCase))
+                    {
+                        logoPath = file;
+                        break;
+                    }
+                }
+
+                pictures.Add(new SteamGamePicture(game.steamGameID, iconPath, logoPath));
             }
 
             SteamGameData.Pictures = pictures;
@@ -78,10 +90,10 @@ public sealed class SteamGamePictureScanService : GeneralService
             foreach (var p in pictures)
             {
                 var iconStatus = p.IconPath != null ? $"[✓] {p.IconPath}" : "[✗] 未找到";
-                var heroStatus = p.HeroPath != null ? $"[✓] {p.HeroPath}" : "[✗] 未找到";
+                var logoStatus = p.LogoPath != null ? $"[✓] {p.LogoPath}" : "[✗] 未找到";
                 result.Append("\n        [AppID: ").Append(p.AppId).Append(']')
                       .Append("\n            图标: ").Append(iconStatus)
-                      .Append("\n            背景: ").Append(heroStatus);
+                      .Append("\n            Logo: ").Append(logoStatus);
             }
             Context.Info(result.ToString());
 

@@ -8,7 +8,7 @@ using PCL.Core.App.IoC;
 
 namespace PCL.Core.Game.Steam;
 
-public record SteamGamePicture(string AppId, string? IconPath, string? HeroPath);
+public record SteamGamePicture(string AppId, string? IconPath, string? LogoPath);
 
 public static class SteamGameData
 {
